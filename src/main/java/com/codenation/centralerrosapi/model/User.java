@@ -30,7 +30,7 @@ public class User {
     @ApiModelProperty(value = "Nome o Usuario", notes = "Nome do Usuario")
     private String nome;
 
-    @Email(regexp = ".@.\\..*", message = "Email deve ser Valido")
+    @Email(message = "Email deve ser Valido")
     @Column(unique = true)
     @ApiModelProperty(value = "E-mail do Usuario", notes = "E-mail do Usuario")
     private String email;
