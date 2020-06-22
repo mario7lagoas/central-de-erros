@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -50,18 +52,24 @@ public class UserController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @ApiOperation("Buscar Usuario pelo ID")
-    public ResponseEntity<User> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable("id") Long id) {
 
-        return new ResponseEntity<User>(this.userService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User")), HttpStatus.OK);
+        User user = this.userRepository.findById(id).get();
+
+        UserDTO userDTO = new UserDTO(user);
+
+        return user != null ? ResponseEntity.ok(userDTO) : ResponseEntity.notFound().build();
 
     }
 
     @GetMapping()
     @ApiOperation("Buscar todos Usuario")
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserDTO>> findAll() {
+
         List<User> users = this.userService.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+
+        List<UserDTO> userDTOS = users.stream().map(u -> new UserDTO(u)).collect(Collectors.toList());
+        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
