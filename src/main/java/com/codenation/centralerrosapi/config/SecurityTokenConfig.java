@@ -45,7 +45,6 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
            "/swagger-ui.html",
             "/webjars/**"};
 
-    //private static final String[] PUBLIC_MATCHERS_GET = {"/logs/**", "/categorias/**", "/estados/**"};
     private static final String[] PUBLIC_MATCHERS_GET = {"/swagger-ui.html"};
     private static final String[] PUBLIC_MATCHERS_POST = {"/user/**" };
 

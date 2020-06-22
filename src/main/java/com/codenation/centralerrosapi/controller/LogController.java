@@ -1,6 +1,7 @@
 package com.codenation.centralerrosapi.controller;
 
 import com.codenation.centralerrosapi.dto.LogDTO;
+import com.codenation.centralerrosapi.dto.LogDetailDTO;
 import com.codenation.centralerrosapi.model.Logs;
 import com.codenation.centralerrosapi.repository.filter.LogFilter;
 import com.codenation.centralerrosapi.service.advice.ResourceNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/log")
@@ -51,9 +53,13 @@ public class LogController {
             @ApiResponse(code = 401, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    public ResponseEntity<Logs> findById(@PathVariable("id") Long id) {
-        return new ResponseEntity<Logs>(this.logService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("id nao encontrado ")), HttpStatus.OK);
+    public ResponseEntity<LogDetailDTO> findById(@PathVariable("id") Long id) {
+
+        Logs logs = this.logService.findById(id).get();
+        LogDetailDTO logDetailDTO = new LogDetailDTO(logs);
+
+        return logs != null ? ResponseEntity.ok(logDetailDTO) : ResponseEntity.notFound().build();
+
     }
 
     @PostMapping
