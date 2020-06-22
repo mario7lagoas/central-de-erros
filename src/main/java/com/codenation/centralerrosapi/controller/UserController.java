@@ -1,5 +1,6 @@
 package com.codenation.centralerrosapi.controller;
 
+import com.codenation.centralerrosapi.dto.UserDTO;
 import com.codenation.centralerrosapi.model.User;
 import com.codenation.centralerrosapi.repository.UserRepository;
 import com.codenation.centralerrosapi.service.advice.ResourceNotFoundException;
@@ -32,9 +33,13 @@ public class UserController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    public ResponseEntity<User> Save(@Valid @RequestBody User user) {
+    public ResponseEntity<UserDTO> Save(@Valid @RequestBody User user) {
 
-        return new ResponseEntity<User>(this.userService.save(user), HttpStatus.CREATED);
+        User usuario = this.userService.save(user);
+
+        UserDTO userDTO = new UserDTO(usuario);
+
+        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
 
     }
 

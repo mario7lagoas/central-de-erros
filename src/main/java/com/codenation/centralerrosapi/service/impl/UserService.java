@@ -34,15 +34,12 @@ public class UserService implements UserServiceInterface  {
         return this.userRepository.findAll();
     }
 
-
     public User save(User user) {
-
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return this.userRepository.save(user);
     }
-
 
     public static UserDetail authenticated() {
 

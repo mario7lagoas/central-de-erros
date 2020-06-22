@@ -36,11 +36,6 @@ public class LogRepositoryImpl implements LogRepositoryQuery {
 
         From<?, ?> orderByFromEntity = null;
 
-        System.out.println("ip local   -> " + request.getLocalAddr());
-        System.out.println("ip Remoto -> " + request.getRemoteAddr());
-        System.out.println("User      -> " + request.getRemoteUser());
-        System.out.println("Sessao    -> " + request.getRequestedSessionId());
-
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Logs> criteria = builder.createQuery(Logs.class);
 
@@ -49,17 +44,17 @@ public class LogRepositoryImpl implements LogRepositoryQuery {
         Predicate[] predicates = criarRestricted(logFilter, builder, root);
         criteria.where(predicates);
 
-        if(logFilter.getOrderBy() == null){
+        if (logFilter.getOrderBy() == null) {
             logFilter.setOrderBy(("date"));
         }
 
-        if(logFilter.getOrderBy() != null){
+        if (logFilter.getOrderBy() != null) {
             String nomePropriedadeOrdenacao = logFilter.getOrderBy();
             orderByFromEntity = root;
 
-            if(logFilter.isAsc() && logFilter.getOrderBy() != null ) {
+            if (logFilter.isAsc() && logFilter.getOrderBy() != null) {
                 criteria.orderBy(builder.asc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
-            }else{
+            } else {
                 criteria.orderBy(builder.desc(orderByFromEntity.get(nomePropriedadeOrdenacao)));
             }
 
@@ -117,13 +112,13 @@ public class LogRepositoryImpl implements LogRepositoryQuery {
                 System.out.println("[" + level + "]");
                 levels.add(Level.valueOf(level));
             }
-           predicates.add(root.get("level").in(levels));
+            predicates.add(root.get("level").in(levels));
         }
 
         User user = userRepository.findByEmail(request.getRemoteUser());
         predicates.add(builder.equal(root.get("user"), user.getId()));
 
-        if(logFilter.getLevel() != null){
+        if (logFilter.getLevel() != null) {
             predicates.add(builder.equal(root.get("level"), logFilter.getLevel()));
         }
 

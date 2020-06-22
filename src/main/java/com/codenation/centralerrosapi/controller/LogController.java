@@ -71,11 +71,6 @@ public class LogController {
 
         LogDTO logDTO = new LogDTO(logs);
 
-
-//        System.out.println("ip local   -> " + request.getLocalAddr());
-        //      System.out.println("ip Remoto -> " + request.getRemoteAddr());
-        //    System.out.println("User      -> " + request.getRemoteUser());
-        //  System.out.println("Sessao    -> " + request.getRequestedSessionId());
         return new ResponseEntity<LogDTO>(logDTO, HttpStatus.CREATED);
     }
 

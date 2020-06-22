@@ -26,7 +26,6 @@ public class LogService {
     @Autowired
     private UserRepository userRepository;
 
-
     public Optional<Logs> findById(Long id) {
         return this.logRepository.findById(id);
     }
