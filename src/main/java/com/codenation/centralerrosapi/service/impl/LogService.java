@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,13 +32,22 @@ public class LogService {
         return this.logRepository.findById(id);
     }
 
-    public Logs save(Logs log) {
+    public List<Logs> save(List<Logs> logs) {
 
         User user = userRepository.findByEmail(request.getRemoteUser());
+        logs.stream().forEach(l -> l.setUser(user));
 
-        log.setUser(user);
+        // log.setUser(user);
+        List<Logs> logsList = new ArrayList<>();
 
-        return this.logRepository.save(log);
+        for (Logs logs1 : logs) {
+            if (logs1 != null) {
+                logsList.add(this.logRepository.save(logs1));
+            }
+        }
+
+        //return this.logRepository.save(logs);
+        return logsList;
     }
 
 

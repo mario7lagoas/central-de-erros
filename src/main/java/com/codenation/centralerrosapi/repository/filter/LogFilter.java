@@ -13,8 +13,8 @@ public class LogFilter {
     private String origem;
     private Long envents;
     private LocalDateTime dataCriacao;
-    private String[] levels;
-    private Level level;
+    private Level[] level;
+    //private Level level;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate logsDe;
@@ -24,7 +24,6 @@ public class LogFilter {
     private String orderBy;
     private boolean asc = true;
     private Long user;
-
 
     public String getDescricao() {
         return descricao;
@@ -38,57 +37,58 @@ public class LogFilter {
         return origem;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public String[] getLevels() {
-        return levels;
+    public void setOrigem(String origem) {
+        this.origem = origem;
     }
 
     public Long getEnvents() {
         return envents;
     }
 
-    public LocalDate getLogsDe() {
-        return logsDe;
-    }
-
-
-    public LocalDate getLogsAte() {
-        return logsAte;
-    }
-
-    public void setOrigem(String origem) {
-        this.origem = origem;
-    }
-
     public void setEnvents(Long envents) {
         this.envents = envents;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
     }
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public void setLevels(String[] levels) {
-        this.levels = levels;
+    public Level[] getLevel() {
+        return level;
     }
 
-    public void setLogsDe(LocalDate logsDe) {
-        this.logsDe = logsDe;
+    public void setLevel(Level[] level) {
+        this.level = level;
     }
-
-    public void setLogsAte(LocalDate logsAte) {
-        this.logsAte = logsAte;
-    }
-
+/*
     public Level getLevel() {
         return level;
     }
 
     public void setLevel(Level level) {
         this.level = level;
+    }
+
+ */
+
+    public LocalDate getLogsDe() {
+        return logsDe;
+    }
+
+    public void setLogsDe(LocalDate logsDe) {
+        this.logsDe = logsDe;
+    }
+
+    public LocalDate getLogsAte() {
+        return logsAte;
+    }
+
+    public void setLogsAte(LocalDate logsAte) {
+        this.logsAte = logsAte;
     }
 
     public String getOrderBy() {

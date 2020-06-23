@@ -102,25 +102,27 @@ public class LogRepositoryImpl implements LogRepositoryQuery {
         }
 
 
-        if (logFilter.getLevels() != null && logFilter.getLevels().length > 0) {
+        if (logFilter.getLevel() != null && logFilter.getLevel().length > 0) {
 
             System.out.println("Entrou no level");
 
             List<Level> levels = new ArrayList<>();
 
-            for (String level : logFilter.getLevels()) {
+            for (Level level : logFilter.getLevel()) {
                 System.out.println("[" + level + "]");
-                levels.add(Level.valueOf(level));
+                levels.add(level);
             }
             predicates.add(root.get("level").in(levels));
         }
 
         User user = userRepository.findByEmail(request.getRemoteUser());
         predicates.add(builder.equal(root.get("user"), user.getId()));
-
+/*
         if (logFilter.getLevel() != null) {
             predicates.add(builder.equal(root.get("level"), logFilter.getLevel()));
         }
+
+ */
 
         if (logFilter.getOrigem() != null) {
             predicates.add(builder.equal(root.get("origem"), logFilter.getOrigem()));

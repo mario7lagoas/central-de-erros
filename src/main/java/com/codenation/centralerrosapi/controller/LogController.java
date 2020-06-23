@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -69,15 +72,21 @@ public class LogController {
             @ApiResponse(code = 401, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    public ResponseEntity<LogDTO> save(@Valid @RequestBody Logs log) {
+    public ResponseEntity<List<LogDTO>> save(@Valid @RequestBody List<Logs> logs) {
 
-        log.setOrigin(request.getRemoteAddr());
+        logs.stream().forEach(l -> l.setOrigin(request.getRemoteAddr()));
 
-        Logs logs = logService.save(log);
+        List<Logs> logReturn = logService.save(logs);
+        List<LogDTO> logDTOS = new ArrayList<>();
 
-        LogDTO logDTO = new LogDTO(logs);
+        for (Logs logs1 : logReturn) {
+            if (logs1 != null) {
+                logDTOS.add(new LogDTO(logs1));
+            }
+        }
 
-        return new ResponseEntity<LogDTO>(logDTO, HttpStatus.CREATED);
+        return new ResponseEntity<List<LogDTO>>(logDTOS, HttpStatus.CREATED);
+      
     }
 
 }

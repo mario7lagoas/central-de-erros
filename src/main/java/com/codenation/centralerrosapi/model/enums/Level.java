@@ -6,10 +6,16 @@ import lombok.Setter;
 
 @Getter
 public enum Level {
-    ERROR("Erro"), WARNING("Alerta"), INFO("Informação");
+    ERROR("ERROR"), WARNING("WARNING"), INFO("INFO");
 
-    private String type;
+    private String name;
 
     Level(String erro) {
+        name = erro;
     }
+
+    public String toString(){
+        return name;
+    }
+
 }
